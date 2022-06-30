@@ -1,0 +1,696 @@
+
+\documentclass[]{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{esint}
+\usepackage{bigints}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{amsmath,amssymb}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xhfill}
+\makeatletter
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\title{CAB202 Exam Cheat Sheet}
+\usepackage[utf8]{inputenc}
+\advance\topmargin-.8in
+\advance\textheight3in
+\advance\textwidth3in
+\advance\oddsidemargin-1.5in
+\advance\evensidemargin-1.5in
+\parindent0pt
+\parskip2pt
+\newcommand{\hr}{\centerline{\rule{3.5in}{1pt}}}
+\newcommand{\nc}[2][]{%
+\tikz \draw [draw=black, ultra thick, #1]
+    ($(current page.center)-(0.5\linewidth,0)$) -- 
+    ($(current page.center)+(0.5\linewidth,0)$)
+    node [midway, fill=white] {#2};
+}
+\begin{document}
+
+\begin{center}{\huge{\textbf{CAB202 Exam Cheat Sheet}}}\\
+\end{center}
+\begin{multicols*}{3}
+
+\tikzstyle{mybox} = [draw=black, fill=white, very thick,
+    rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+\tikzstyle{fancytitle} =[fill=black, text=white, font=\bfseries]
+
+%--------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\addtolength{\itemsep}{-2pt}
+%\item[$g = $]  
+%  9.80 m s$^{-2}$
+    - Compilation adds complexity\\
+    - Few data structures, small standard library\\
+    - Typically more code required for a given application\\
+    - Not memory-safe and only weakly-typed; easy to write buggy code (eg.
+buffer overflow)
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Downsides of C};
+\end{tikzpicture}
+
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \begin{itemize}
+\addtolength{\itemsep}{-2pt}
+    \begin{tabularx}{0.75\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+     \hline
+     Operator & Description & Example \\
+     \hline
+     ==&Equal&1 == 1\\
+     \hline
+     !=&Not Equal&1 != 0\\
+     \hline
+     $>$&Greater&$3>2$\\
+    \hline
+    $<$&Less&$3<4$\\
+    \end{tabularx}
+\end{itemize}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Rational Operators};
+\end{tikzpicture}
+
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    - Unlike other languages, C doesn’t have Boolean data type.\\
+    - Any non-zero value is true, 0 is false\\
+    - Be sure to use == to test equality, = for assignment.\\
+    - Identation
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Common Problems};
+\end{tikzpicture}
+
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \begin{tabularx}{1.0\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+     \hline
+     Operator & Description \\
+     \hline
+     \&\& & AND\\
+     \hline
+     \textbar \hspace{} \textbar&OR\\
+     \hline
+     \&&BITWISE AND\\
+    \hline
+    \textbar&BITWISE OR\\
+    \hline
+    \^{}&BITWISE XOR\\
+    \hline
+    \&=&AND EQUAL\\
+    \hline
+    \textbar=&OR EQUAL\\
+    \hline
+    \^{}=&XOR EQUAL\\
+    \end{tabularx}
+    \end{minipage}
+};
+%------------ campo titulo---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Logical Expressions};
+\end{tikzpicture}
+%---------------------------------
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    - Can stop a loop early by using the break statement
+    \begin{lstlisting}
+    int i = 1000;
+    while ( i < 2000) {
+    // Stop when we find a multiple of 87
+    if ( i % 87 == 0) { break ; }
+    i ++;
+    }
+    printf ( " % d \ n " , i );
+    \end{lstlisting}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Break Statements};
+\end{tikzpicture}
+%\bigskip
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+While loops are the simplest loop in C. If condition is true then
+the loop is executed over and over until it becomes false.
+    \begin{lstlisting}
+while ( condition ) {
+// body of loop
+}
+    \end{lstlisting}
+Do...while loops are like while loops, but the condition is evaluated
+after the body so the body is always executed at least once.
+    \begin{lstlisting}
+do {
+// body of loop
+} while ( condition );
+    \end{lstlisting}
+A "For" Loop is used to repeat a specific block of code a known number of times.
+\begin{lstlisting}
+for ( start_statement ; condition ; end_statement ) {
+// body of loop
+}
+\end{lstlisting}
+    \end{minipage}
+};
+%------------ potencial titulo  ---------------------
+\node[fancytitle, right=10pt] at (box.north west) {Loops};
+\end{tikzpicture}
+
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    Assignments are expressions, so we can 
+    get a condition to do
+    double duty!
+    \begin{lstlisting}
+int i;
+// Keep scanning as long as we get something
+while ( r = scanf ("%d,%d",&i,&j) > 0) {
+// process i , j , r
+    }
+    \end{lstlisting}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Assignments in conditions};
+\end{tikzpicture}
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\begin{itemize}
+\item In C, a string is \textbf{array of char}
+\item "A" is a \textbf{string} constant
+\item 'A' is a \textbf{char} constant
+\item Strings end with a \textbf{NULL} character
+\item String length must be specified to ensure it does not read/write beyon the end of the memory allocated
+\end{itemize}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Strings};
+\end{tikzpicture}
+
+%\bigskip\\
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+Arrays can be used to store:\\
+- Numbers in a Vector\\
+- Records in a databse\\
+- Characters in a string\\
+  Initialisation:
+\begin{lstlisting}
+// initialise with list , size = length of list
+int a [] = { 1 , 2 , 3 };
+// initialise with list , size explicit
+// If list is to short , remaining elements set to 0
+int b [4] = { 1 , 2 , 3 };
+// Initialise with a loop
+int c [4];
+for ( int i = 0; i < 4; i ++) {
+c [ i ] = -1;
+}
+\end{lstlisting}
+We can also do multi-dimensional arrays which use more than one
+index:
+\begin{lstlisting}
+// Store a matrix in a 2 d array
+double matrix [3][3] = { { 1 , 0 , 0} ,
+{ 0 , 1 , 0} ,
+{ 0 , 0 , 1} };
+// Store a b & w image
+unsigned char picture [1920][1020];
+\end{lstlisting}
+\textbf{Array variables are just pointers!}
+\begin{lstlisting}
+- int * pX = &x
+in English means an integer pointer named 'pX' is set to the address of x
+- int A[10]; int* p = A; p[0] = 0; makes variable p point to the first member of array A.
+\end{lstlisting}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Arrays};
+\end{tikzpicture}
+
+%\bigskip\\
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\nc{Pointer Definition}
+A pointer is a variable that \textbf{stores the memory address of another variable as its value}. A pointer is created with the * operator.\\
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Pointers};
+\end{tikzpicture}
+%---------------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+	\begin{lstlisting}
+// We must allocate some space for a string
+char buffer [100];
+// scan in a string until the next whitespace
+// Note : buffer is already a pointer ! No &
+scanf ( " % s " , buffer );
+// Scanf will happily write beyond the end of buffer .
+	\end{lstlisting}
+	\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {scanf() and strings};
+\end{tikzpicture}
+%---------------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+	\begin{lstlisting}
+// Use %s to print a string with printf ()
+char * mystring = " Hello world ! " ;
+printf ( " mystring = % s \ n " , mystring );
+	\end{lstlisting}
+	\begin{lstlisting}
+// Using a string variable as a format string :
+char * myformat = " mystring = % s " ;
+printf ( myformat , mystring );
+	\end{lstlisting}
+	\begin{lstlisting}
+// puts () prints the string followed by newline
+puts ( " Mystring = " );
+puts ( mystring );
+    \end{lstlisting}
+	\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Printing strings};
+\end{tikzpicture}
+%\bigskip\\
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+The rand() function returns pseudorandom numbers between 0
+and RAND\_MAX:\\
+rand() is called only once using a specified seed.\\
+If no \textbf{seed} is specified then it will always be the \textbf{default seed}.
+\begin{lstlisting}
+int r = rand (); // between 0 and RAND_MAX
+int N = 100;
+int s = rand () % N // 0 <= s < N
+\end{lstlisting}
+By default rand() will always return the same sequence
+of numbers!. This is why we provide different seeds using srand()
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {rand()};
+\end{tikzpicture}
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \begin{itemize}
+\item Provide seed using srand() before calling rand()
+\item If the seed changes on each run then we get a new sequence
+of numbers
+\item Common to use current time as a seed
+    \end{itemize}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {srand()};
+\end{tikzpicture}
+%---------------------------
+\bigskip\\
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+Functions allow reusing same code in many places and on different data
+\begin{lstlisting}
+int myfunction (int a , int b) {
+return a + b ;
+}
+// Using a function
+int x = myfunction (3 , 5);
+// x = 8
+// myfunction can now be called anywhere in the code
+\end{lstlisting}
+Functions \textsl{can} be passed like variables using pointers
+\begin{lstlisting}
+int addInt(int n, int m) {
+    return n+m;
+}
+//define a pointer to a function which receives 2 ints and returns an int:
+int (*functionPtr)(int,int);
+
+//use as value
+int sum = (*functionPtr)(2, 3); // sum == 5
+
+//use as function
+int add2to3(int (*functionPtr)(int, int)) {
+    return (*functionPtr)(2, 3);
+}
+\end{lstlisting}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Functions};
+\end{tikzpicture}
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \begin{tabularx}{1.0\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+     \hline
+     \textbf{Pass By Value} &\textbf{Pass By Reference}\\
+     \hline
+     Makes a copy of the actual param& Address of the actual param passed to func\\
+     \hline
+     Changes made inside function \textbf{do not reflect} original value & Changes made inside function \textbf{reflect} original value\\
+     \hline
+     Function gets a copy of the actual content & Function acesses the original variable's content\\
+    \hline
+    \end{tabularx}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Pass by Reference Vs Value};
+\end{tikzpicture}
+%---------------------------
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+- Bitwise operators work on base 10 numbers, just turn them into binary\\
+
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Extras};
+\end{tikzpicture}
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    A stack is a \textbf{linear data structure} in which insertions and deletions are allowed only \textbf{at the end}, called the \textbf{top of the stack}
+    \begin{lstlisting}
+// Space to store items
+char stack [256];
+// Stack starts at highest address and grows down !
+char * stack_pointer = stack + 255;
+// Puts the value x at the top of the stack
+void push ( char x ) {
+* stack_pointer = x ;
+stack_pointer - -;
+}
+// Removes the last value by the function push
+char pop () {
+stack_pointer ++;
+return * stack_pointer ;
+}
+    \end{lstlisting}
+    \end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {The stack};
+\end{tikzpicture}
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\addtolength{\itemsep}{-2pt}
+    \begin{tabularx}{1\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\raggedleft\arraybackslash}X | }
+     \hline
+     Operator & Name & Operation \\
+     \hline
+     \huge{\~{}} & bitwise NOT & 1 if 0, 0 if 1\\
+     \hline
+     \&= & bitwise AND & 1 if both are 1, otherwise 0\\
+     \hline
+     \textbar & bitwise OR & 0 if both 0, otherwise 1\\
+    \hline
+    \^{} & bitwise XOR & 0 if the same, 1 if different\\
+    \hline
+    $<<$ & Left shift & move all bits left, fill right with 0\\
+    \hline
+    $>>$ & Right shift & move all bits right, fill left with 0\\
+    \end{tabularx}
+OR and AND for any bit b
+\begin{lstlisting}
+b | 1 == 1
+b | 0 == b
+b & 1 == b
+b & 0 == 0
+
+\end{lstlisting}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Bitwise Operations};
+\end{tikzpicture}
+%---------------------------
+
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \begin{lstlisting}
+Setting Bits:
+x = 0b1010 ;
+mask = 0b0011 ;
+z = x | mask ; 
+// z == 0b1011
+
+Clearing Bits:
+x = 0b1010 ;
+mask = 0b0011 ;
+z = x ^ mask ; 
+// z == 0b1001
+
+Testing Bits
+x = 0b1010 ;
+mask = 0b0011 ;
+z = x & mask ; 
+// z == 0 b0010
+    \end{lstlisting}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Bitwise Masks};
+\end{tikzpicture}
+%---------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \nc{Registers}
+Storage with \textbf{8 bits capacity}\\
+- Connected to \textbf{CPU} (accumulator)\\
+- Operations on their content require \textbf{only one} instruction\\
+\nc{Data Direction Registers (DDRx)}
+Configured to specifiy which of the 8 bits is used for \textbf{output(1)} or \textbf{input(0)}\\
+\nc{Data Register (PORTx)}
+Writes output data to port\\
+\nc{Input Pins Address (PINx)}
+Reads input data from port
+\begin{lstlisting}
+unsigned char temp; // temporary variable
+temp = PINB; // read input
+\end{lstlisting}
+\end{minipage}
+};
+%---------------------------------
+\bigskip
+\node[fancytitle, right=10pt] at (box.north west) {Micro-Controllers};
+\end{tikzpicture}
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\nc{Serial Vs Parallel}
+\begin{tabularx}{1.0\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+     \hline
+     Serial & Parallel \\
+     \hline
+     One data bit is transceived at a time & Multiple data bits are transceived at a time\\
+     \hline
+     Slower&Faster\\
+     \hline
+     Less number of cables required&Higher number of cables required\\
+    \end{tabularx}
+    \nc{Synchronous Vs Asynchronous}
+\begin{tabularx}{1.0\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+     \hline
+     Synchronous & Asynchronous\\
+     \hline
+     Send \& Receiver clocks synchronised & Not synchronised\\
+     \hline
+     Faster&Bytes are enclosed between start and stop bits\\
+     \hline
+     Example: Serial Peripheral Interface (SPI)& Example: Universal Sync/\textbf{Async} Receiver/Transmitter (USART)\\
+    \end{tabularx}
+    \nc{USART}
+1) \textbf{Asynchronous Normal Mode}\\
+--- Data is transferred at the BAUD rate set in UBBR register\\
+--- Data is transmitted/received asynchronously, not using clock pulses.\\
+2) \textbf{Asynchronous Double Speed Mode}\\
+--- Everything is like normal mode but doubled\\
+3) \textbf{Synchronous Mode}\\
+--- Requires both data and a clock\\
+--- The data is transmitted at a fixed rate\\
+\nc{To use must specify}
+1) Baud Rate\\
+2) Number of data bits encoding a frame or char\\
+--- Usually 10: 1 start, 8 data, 1 stop.\\
+3) The sense of the parity bit\\
+4) Number of stop bits\\
+Minimally you'll need:
+\begin{itemize}
+\item uart\_{}init(ubrr) //Initialise the baud rate
+\item uart\_{}putchar(unsigned char data) 
+\item unsigned char c = uart\_{}getchar(void) 
+\end{itemize}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Serial Communications};
+\end{tikzpicture}
+%---------------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\begin{itemize}
+    \item AVR timers run asynchronous to main AVR core
+    \item Use clock pulse as parallel increment
+    \item When timer reaches TOP value, reset to 0 (overflowed)
+    \item When overflowed, sends signal which can be used for interrupts
+\end{itemize}
+\begin{tabularx}{1.0\textwidth} { 
+  | >{\raggedright\arraybackslash}X 
+  | >{\centering\arraybackslash}X | }
+     \hline
+     \textbf{Pin} &\textbf{Output Compare Register}\\
+     \hline
+    \textbf{Pin 3} & \textbf{OC2B}\\
+     \hline
+    \textbf{Pin 5} & \textbf{OC0B}\\
+     \hline
+    \textbf{Pin 6} & \textbf{OC0A}\\
+    \hline
+    \textbf{Pin 9} & \textbf{OC1A}\\
+    \hline
+    \textbf{Pin 10} & \textbf{OC1B}\\
+    \hline
+    \textbf{Pin 11} & \textbf{OC2A}\\
+    \hline
+    \end{tabularx}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {Timers};
+\end{tikzpicture}
+%---------------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+\textbf{ADC Definition:}\\ 
+Analog to Digital converters are used to create an \textbf{electric quantity}(Bit value) to vary directly like a \textbf{continuous variable} (temperature)
+\nc{Registers Involved}
+\begin{enumerate}
+    \item \textbf{ADMUX} - used to select reference voltage source
+    \item \textbf{ADCSRx} - used to tune aspects of the conversion(Auto-Trigger, Off/On,  Interrupt Enable)
+\end{enumerate}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {ADC};
+\end{tikzpicture}
+%---------------------------------
+\begin{tikzpicture}
+\node [mybox] (box){%
+    \begin{minipage}{0.3\textwidth}
+    \nc{PWM Definition}
+It is a way of simulating an \textbf{analog signal} via a \textbf{digital pin}. It does this buy turning \textbf{off} and \textbf{on} at different \textbf{frequencies} to achieve desired effects
+\nc{Registers Involved}
+\begin{enumerate}
+    \item \textbf{TCCRx} - used to determine when to turn off and on
+    \item \textbf{OCRxx} - Output Compare Register
+\end{enumerate}
+\end{minipage}
+};
+%---------------------------------
+\node[fancytitle, right=10pt] at (box.north west) {PWM};
+\end{tikzpicture}
+
+\end{multicols*}
+\end{document}
+
+
